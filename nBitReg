@@ -1,0 +1,32 @@
+entity nBitReg is
+	Port(
+			clk, in1 : in bit;
+			outt : out bit;
+			fullOut : out bit_vector(7 downto 0);
+			en : in bit;			
+			setVal : in bit_vector(7 downto 0));
+end entity nBitReg;
+
+architecture sim of nBitReg is
+component dFF is
+	Port(
+			d, clk : in bit;
+			q : out bit);
+end component;
+signal inPUT : bit_vector(8 downto 0);
+begin
+outt <= inPUT(0);
+process is begin
+if(en='1') then
+	inPUT <= '0' & setVal;
+else
+	inPUT(8) <= in1;
+end if;
+end process;
+FF_GEN : for I in 8 downto 1 generate
+	FFgen : dFF
+		port map (inPUT(I), clk, inPUT(I-1));
+end generate;
+fullOut <= inPUT(7 downto 0);
+
+end architecture sim;
