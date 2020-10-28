@@ -1,0 +1,12 @@
+entity dFF is
+	Port(
+			d, clk : in bit;
+			q : out bit);
+end entity dFF;
+
+architecture sim of dFF is
+begin
+process(clk) is begin
+	q<=d;
+end process;
+end architecture sim;
