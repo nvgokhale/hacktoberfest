@@ -1,0 +1,36 @@
+entity BSA is
+	Port(
+			in1, in2, clk : in bit;
+			fullOut : out bit_vector(7 downto 0);
+			inEN : in bit;
+			addval1, addval2 : in bit_vector(7 downto 0));
+end entity BSA;
+
+architecture sim of BSA is
+component nBitReg is
+	Port(
+			clk, in1 : in bit;
+			outt : out bit;
+			fullOut : out bit_vector(7 downto 0);
+			en : in bit;			
+			setVal : in bit_vector(7 downto 0));
+end component;
+component FullAdderClocked is
+	Port(
+			a,b,cin,clk : in bit;
+			s,cout : out bit);
+end component;
+component dFF is
+	Port(
+			d, clk : in bit;
+			q : out bit);
+end component;
+signal out1, out2, s, cout, cin : bit;
+begin
+reg1 : nBitReg port map(in1, clk, out1, open, inEN, addval1);
+reg2 : nBitReg port map(in2, clk, out2, open, inEN, addval2);
+reg3 : nBitReg port map(s, clk, open, fullOut, '0', "00000000");
+add1 : FullAdderClocked port map(out1, out2, cin, clk, s, cout);
+dFlip : dFF port map(cout, clk, cin);
+
+end architecture sim;
