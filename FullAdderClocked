@@ -1,0 +1,13 @@
+entity FullAdderClocked is
+	Port(
+			a,b,cin,clk : in bit;
+			s,cout : out bit);
+end entity FullAdderClocked;
+
+architecture sim of FullAdderClocked is
+begin
+process(clk) is begin
+	s <= a xor b xor cin;
+	cout <= (a and b) or ((a xor b) and cin);
+end process;
+end architecture sim;
