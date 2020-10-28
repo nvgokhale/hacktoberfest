@@ -1,0 +1,25 @@
+entity testbench2 is
+end entity testbench2;
+
+architecture sim of testbench2 is
+component BSA is
+	Port(
+			in1, in2, clk : in bit;
+			fullOut : out bit_vector(7 downto 0);
+			inEN : in bit;
+			addval1, addval2 : in bit_vector(7 downto 0));
+end component;
+signal in1, in2, clk, en : bit;
+signal fullOut : bit_vector(7 downto 0);
+signal fullin1, fullin2 : bit_vector(7 downto 0);
+begin
+bsarun : BSA port map(in1, in2, clk, fullOut, en, fullin1, fullin2);
+clk <= not clk after 10 ns;
+process is begin
+fullin1 <= "00000011";
+fullin2 <= "00000111";
+en <= '1';
+wait for 5 ns;
+en <= '0';
+end process;
+end architecture sim;
